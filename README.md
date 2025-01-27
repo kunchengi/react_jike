@@ -2,6 +2,7 @@
 
 ## 技术栈
 * React
+* sass
 * antdDesign
 
 ## 项目结构
@@ -22,8 +23,13 @@
 * 预编译css语言
 
 ### 安装
-* add
 ```bash
     npm i sass -D
 ```
 
+## antdDesign
+
+### 安装
+```bash
+    npm i antd --save
+```
