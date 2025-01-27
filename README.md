@@ -15,3 +15,15 @@
 |   |-- router // 路由配置
 |   |-- store // 全局状态管理
 |   |-- utils // 工具函数
+
+```
+
+## scss
+* 预编译css语言
+
+### 安装
+* add
+```bash
+    npm i sass -D
+```
+
