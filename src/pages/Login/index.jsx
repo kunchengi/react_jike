@@ -1,18 +1,22 @@
 import { Card, Form, Input, Button } from 'antd';
 import logo from '@/assets/logo.png'
 import './index.scss'
-
-// 表单提交成功回调
-const onFinish = (values) => {
-    console.log(values);// {mobile: '17820210608', code: '631964'}
-};
-
-// 表单提交失败回调
-const onFinishFailed = (errorInfo) => {
-    console.log(errorInfo);
-};
+import { asyncLogin } from '@/store/modules/userData';
+import { useDispatch } from 'react-redux';
 
 export default function Login() {
+    const dispatch = useDispatch();
+
+    // 表单提交成功回调
+    const onFinish = (loginFrom) => {
+        dispatch(asyncLogin(loginFrom));
+    };
+    
+    // 表单提交失败回调
+    const onFinishFailed = (errorInfo) => {
+        console.log(errorInfo);
+    };
+
     return (
         <div className='login'>
             {/* 卡片 */}
@@ -50,7 +54,7 @@ export default function Login() {
                         rules={[
                             {
                                 required: true,
-                                message: '请输入验证码',
+                                message: '请输入验证码，默认是246810',
                             },
                         ]}
                     >
