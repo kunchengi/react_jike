@@ -1,6 +1,7 @@
 import { Navigate } from 'react-router-dom'
 import Login from "@/pages/Login"
 import Layout from '@/pages/Layout'
+import AuthRouter from '@/components/AuthRouter'
 
 // 定义路由表
 const routers = [
@@ -10,7 +11,7 @@ const routers = [
     },
     {
         path: '/layout',
-        element: <Layout />,
+        element: <AuthRouter> <Layout /> </AuthRouter>,// 将组件包裹在路由校验组件中，通过校验才渲染
     },
     {
         path: '/',
