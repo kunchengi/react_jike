@@ -1,10 +1,12 @@
-// 引入antd的按钮
-import { Button } from 'antd';
+import { useRoutes } from 'react-router-dom'
+import router from './router'
+
 function App() {
+  const elements = useRoutes(router);
   return (
     <div className="App">
-      {/* 使用antd的按钮 */}
-      <Button type="primary">Button</Button>
+      {/* 渲染路由 */}
+      {elements}
     </div>
   );
 }

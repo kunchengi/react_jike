@@ -33,3 +33,10 @@
 ```bash
     npm i antd --save
 ```
+
+## 配置基础路由Router
+
+### 安装
+```bash
+    npm i react-router-dom
+```
