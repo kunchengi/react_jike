@@ -5,12 +5,14 @@ import { request } from "@/utils";
 const userSlice = createSlice({
     name: 'userData',
     initialState: {
-        tolen: ''
+        tolen: localStorage.getItem('token') || '',
     },
     reducers: {
         // 设置token
         setToken(state, action) {
             state.token = action.payload;
+            // 将token保存到localStorage
+            localStorage.setItem('token', action.payload);
         }
     }
 })
