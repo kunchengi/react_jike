@@ -1,5 +1,5 @@
 import { Navigate } from 'react-router-dom'
-import Login from "../pages/Login"
+import Login from "@/pages/Login"
 
 // 定义路由表
 const routers = [
