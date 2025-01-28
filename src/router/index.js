@@ -1,11 +1,16 @@
 import { Navigate } from 'react-router-dom'
 import Login from "@/pages/Login"
+import Layout from '@/pages/Layout'
 
 // 定义路由表
 const routers = [
     {
         path: '/login',
         element: <Login />,
+    },
+    {
+        path: '/layout',
+        element: <Layout />,
     },
     {
         path: '/',

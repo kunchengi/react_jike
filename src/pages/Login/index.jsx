@@ -1,15 +1,26 @@
-import { Card, Form, Input, Button } from 'antd';
+import { Card, Form, Input, Button, message } from 'antd';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import logo from '@/assets/logo.png'
 import './index.scss'
 import { asyncLogin } from '@/store/modules/userData';
-import { useDispatch } from 'react-redux';
 
 export default function Login() {
     const dispatch = useDispatch();
-
+    const navegate = useNavigate();
     // 表单提交成功回调
-    const onFinish = (loginFrom) => {
-        dispatch(asyncLogin(loginFrom));
+    const onFinish = async (loginFrom) => {
+        // 请求登录接口得到登录结果
+        const errMessage = await dispatch(asyncLogin(loginFrom));
+        if(!errMessage)
+        {
+            navegate('/layout')
+            message.success('登录成功');
+        }
+        else
+        {
+            message.error(errMessage);
+        }
     };
     
     // 表单提交失败回调

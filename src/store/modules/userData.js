@@ -17,13 +17,19 @@ const userSlice = createSlice({
 
 const { setToken } = userSlice.actions;
 
-console.log(request);
 // 登录请求，异步获取token
 const asyncLogin = (loginFrom) => async (dispatch) => {
-    // 登录请求，传入表单数据
-    const res = await request.post('/authorizations', loginFrom);
-    // 存入token
-    dispatch(setToken(res.data.token));
+    try{
+        // 登录请求，传入表单数据
+        const res = await request.post('/authorizations', loginFrom);
+        // 存入token
+        dispatch(setToken(res.data.token));
+        return '';
+    }
+    catch(err){
+        const errMessage = err.response.data.message;
+        return errMessage;
+    }
 }
 
 export { asyncLogin, setToken };
