@@ -6,6 +6,7 @@
 * antdDesign
 * react-router-dom
 * craco
+* axios
 
 ## 项目结构
 ```
@@ -87,3 +88,33 @@
         }
       }
     ```
+
+## 封装axios请求
+* 安装依赖
+  ```bash
+    npm i axios
+  ```
+
+* 根域名和超时时间
+  ```javascript
+    const request = axios.create({
+        baseURL: 'http://geek.itheima.net/v1_0',// 根域名
+        timeout: 5000,// 超时时间
+    });
+  ```
+
+* 拦截器
+  ```javascript
+    request.interceptors.request.use(config => {
+            return config
+        },
+        err => Promise.reject(err)
+    )
+    request.interceptors.response.use(response => {
+            return response.data
+        },
+        err => {
+            return Promise.reject(err)
+        }
+    )
+  ```
