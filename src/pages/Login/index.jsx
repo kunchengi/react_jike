@@ -1,14 +1,32 @@
 import { Card, Form, Input, Button } from 'antd';
 import logo from '@/assets/logo.png'
 import './index.scss'
+
+// 表单提交成功回调
+const onFinish = (values) => {
+    console.log(values);// {mobile: '17820210608', code: '631964'}
+};
+
+// 表单提交失败回调
+const onFinishFailed = (errorInfo) => {
+    console.log(errorInfo);
+};
+
 export default function Login() {
     return (
         <div className='login'>
             {/* 卡片 */}
             <Card className='login-container'>
                 <img className='login-logo' alt='logo' src={logo} />
-                {/* 登录表单，可以通过 validateTrigger 改变校验时机，这边写为失焦时校验 */}
-                <Form validateTrigger='onBlur'>
+                {/* 登录表单
+                可以通过 validateTrigger 改变校验时机，这边写为失焦时校验
+                onFinish 表单提交成功回调
+                onFinishFailed 表单提交失败回调 */}
+                <Form
+                    validateTrigger='onBlur'
+                    onFinish={onFinish}
+                    onFinishFailed={onFinishFailed}
+                >
                     <Form.Item
                         // 表单名，一般与接口字段名一致
                         name="mobile"
