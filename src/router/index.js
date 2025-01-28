@@ -18,9 +18,9 @@ const routers = [
         element: <Navigate to="/login" />
     },
     {
-        // 当找不到路由时，重定向到登录页
+        // 当找不到路由时，重定向到首页，如果没有token，会跳到登录页
         path: '*',
-        element: <Navigate to="/login" />
+        element: <Navigate to="/layout" />
     }
 ]
 
