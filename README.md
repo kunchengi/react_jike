@@ -7,6 +7,7 @@
 * react-router-dom
 * craco
 * axios
+* redux
 
 ## 项目结构
 ```
@@ -117,4 +118,10 @@
             return Promise.reject(err)
         }
     )
+  ```
+
+## redux
+* 安装依赖
+  ```bash
+    npm i redux react-redux @reduxjs/toolkit
   ```
