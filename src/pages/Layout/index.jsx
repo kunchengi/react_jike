@@ -1,3 +1,5 @@
+import { useEffect } from "react"
+import { useDispatch, useSelector } from "react-redux"
 import { Outlet, useLocation, useNavigate } from "react-router-dom"
 import { Layout, Menu, Popconfirm } from "antd"
 import {
@@ -7,6 +9,7 @@ import {
   LogoutOutlined,
 } from "@ant-design/icons"
 import './index.scss'
+import { asyncGetUserInfo } from '@/store/modules/userData';
 
 const { Header, Sider } = Layout
 
@@ -29,6 +32,12 @@ const items = [
 ]
 export default function GeekLayout() {
 
+  // 请求用户信息
+  const dispatch =  useDispatch();
+  useEffect(() => {
+    dispatch(asyncGetUserInfo())
+  }, [dispatch]);
+
   const navigate = useNavigate();
 
   // 左侧菜单点击事件
@@ -43,12 +52,19 @@ export default function GeekLayout() {
   const pathnames = location.pathname.split('/');
   const currentKey = pathnames[pathnames.length - 1];
 
+  /**
+   * 获取用户信息
+   * 由于 setUserInfo 被调用并更新了 store 中的 userInfo，useSelector 会检测到这个变化并重新渲染组件，从而获取到最新的用户信息。
+   * 所以即使asyncGetUserInfo是异步的，这边也能拿到最新的用户信息。
+   */
+  const userInfo = useSelector(state => state.userData?.userInfo) || {};
+
   return (
     <Layout>
       <Header className="hander">
         <div className='logo' />
         <div className="user-info">
-          <span className="user-name">ccc</span>
+          <span className="user-name">{userInfo.name || ''}</span>
           <span className="user-logout">
             <Popconfirm title="是否确认退出？" okText="退出" cancelText="取消">
               <LogoutOutlined /> 退出
