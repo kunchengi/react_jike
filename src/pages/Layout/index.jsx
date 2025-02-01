@@ -1,3 +1,4 @@
+import { Outlet } from "react-router-dom"
 import { Layout, Menu, Popconfirm } from "antd"
 import {
   HomeOutlined,
@@ -51,7 +52,8 @@ export default function GeekLayout() {
             style={{ height: '100%', borderRight: 0 }}></Menu>
         </Sider>
         <Layout className="layout-content" style={{ padding: 20 }}>
-          内容
+          {/* 渲染Layout的子路由 */}
+          <Outlet />
         </Layout>
       </Layout>
     </Layout>
