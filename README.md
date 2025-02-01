@@ -125,3 +125,14 @@
   ```bash
     npm i redux react-redux @reduxjs/toolkit
   ```
+
+## Normalize.css
+* 用来解决浏览器的默认样式差异，重置样式
+* 安装依赖
+  ```bash
+    npm i normalize.css
+  ```
+* 在入口文件引入
+  ```javascript
+    import 'normalize.css'
+  ```
