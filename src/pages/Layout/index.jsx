@@ -1,4 +1,4 @@
-import { Outlet, useNavigate } from "react-router-dom"
+import { Outlet, useLocation, useNavigate } from "react-router-dom"
 import { Layout, Menu, Popconfirm } from "antd"
 import {
   HomeOutlined,
@@ -13,7 +13,7 @@ const { Header, Sider } = Layout
 const items = [
   {
     label: '首页',
-    key: '',
+    key: 'home',
     icon: <HomeOutlined />
   },
   {
@@ -38,6 +38,11 @@ export default function GeekLayout() {
     navigate(path);
   };
 
+  // 获取当前子路由key
+  const location =  useLocation()
+  const pathnames = location.pathname.split('/');
+  const currentKey = pathnames[pathnames.length - 1];
+
   return (
     <Layout>
       <Header className="hander">
@@ -56,7 +61,7 @@ export default function GeekLayout() {
           <Menu
             mode="inline"
             theme="dark"
-            defaultSelectedKeys={['1']}
+            selectedKeys={[currentKey]}
             onClick={onMenuClick}
             items={items}
             style={{ height: '100%', borderRight: 0 }}></Menu>
