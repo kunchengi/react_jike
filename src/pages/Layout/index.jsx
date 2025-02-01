@@ -1,4 +1,4 @@
-import { Outlet } from "react-router-dom"
+import { Outlet, useNavigate } from "react-router-dom"
 import { Layout, Menu, Popconfirm } from "antd"
 import {
   HomeOutlined,
@@ -13,24 +13,33 @@ const { Header, Sider } = Layout
 const items = [
   {
     label: '首页',
-    key: '/',
+    key: '',
     icon: <HomeOutlined />
   },
   {
     label: '文章管理',
-    key: '/article',
+    key: 'article',
     icon: <DiffOutlined />
   },
   {
     label: '创建文章',
-    key: '/publish',
+    key: 'publish',
     icon: <EditOutlined />
   }
 ]
 export default function GeekLayout() {
 
+  const navigate = useNavigate();
+
+  // 左侧菜单点击事件
+  const onMenuClick = (e) => {
+    const path = e.key;
+    console.log(path);
+    navigate(path);
+  };
+
   return (
-    <Layout className="ant-layout">
+    <Layout>
       <Header className="hander">
         <div className='logo' />
         <div className="user-info">
@@ -48,6 +57,7 @@ export default function GeekLayout() {
             mode="inline"
             theme="dark"
             defaultSelectedKeys={['1']}
+            onClick={onMenuClick}
             items={items}
             style={{ height: '100%', borderRight: 0 }}></Menu>
         </Sider>
