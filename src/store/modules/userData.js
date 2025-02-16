@@ -1,12 +1,12 @@
 import { message } from 'antd';
 import { createSlice } from "@reduxjs/toolkit";
-import { request, getToken, setToken as _setToken } from "@/utils";
+import { request, getToken, setToken as _setToken, removeToken } from "@/utils";
 
 // 创建用户Slice
 const userSlice = createSlice({
     name: 'userData',
     initialState: {
-        tolen: getToken() || '',
+        token: getToken() || '',
         userInfo: {}
     },
     reducers: {
@@ -16,13 +16,20 @@ const userSlice = createSlice({
             // 将token保存到localStorage
             _setToken(action.payload);
         },
+        // 设置用户信息
         setUserInfo(state, action) {
             state.userInfo = action.payload;
+        },
+        // 清除用户信息
+        clearUserInfo(state) {
+            state.token = '';
+            state.userInfo = {};
+            removeToken();
         }
     }
 })
 
-const { setToken, setUserInfo } = userSlice.actions;
+const { setToken, setUserInfo, clearUserInfo } = userSlice.actions;
 
 // 登录请求，异步获取token
 const asyncLogin = (loginFrom) => async (dispatch) => {
@@ -49,7 +56,7 @@ const asyncGetUserInfo = () => async (dispatch) => {
         if(res){
             // 存入用户信息
             dispatch(setUserInfo(res.data));
-            message.success(`亲爱的${res.data.name}，欢迎回来！`);
+            // message.success(`亲爱的${res.data.name}，欢迎回来！`);
         }
         else{
             throw new Error('网络繁忙，请稍后重试！');
@@ -61,6 +68,6 @@ const asyncGetUserInfo = () => async (dispatch) => {
     }
 }
 
-export { asyncLogin, setToken, asyncGetUserInfo };
+export { asyncLogin, setToken, asyncGetUserInfo, clearUserInfo };
 
 export default userSlice.reducer;

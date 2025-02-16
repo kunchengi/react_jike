@@ -58,7 +58,7 @@ export default function Login() {
                             },
                         ]}
                     >
-                        <Input size='large' placeholder='请输入手机号' />
+                        <Input size='large' placeholder='请输入手机号,默认是13800000002' />
                     </Form.Item>
                     <Form.Item
                         name="code"

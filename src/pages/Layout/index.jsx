@@ -9,7 +9,7 @@ import {
   LogoutOutlined,
 } from "@ant-design/icons"
 import './index.scss'
-import { asyncGetUserInfo } from '@/store/modules/userData';
+import { asyncGetUserInfo, clearUserInfo } from '@/store/modules/userData';
 
 const { Header, Sider } = Layout
 
@@ -59,6 +59,12 @@ export default function GeekLayout() {
    */
   const userInfo = useSelector(state => state.userData?.userInfo) || {};
 
+  // 退出登录
+  const onLogout = () => {
+    dispatch(clearUserInfo());
+    navigate('/login');
+  };
+
   return (
     <Layout>
       <Header className="hander">
@@ -66,7 +72,7 @@ export default function GeekLayout() {
         <div className="user-info">
           <span className="user-name">{userInfo.name || ''}</span>
           <span className="user-logout">
-            <Popconfirm title="是否确认退出？" okText="退出" cancelText="取消">
+            <Popconfirm title="是否确认退出？" okText="退出" cancelText="取消" onConfirm={onLogout}>
               <LogoutOutlined /> 退出
             </Popconfirm>
           </span>
