@@ -63,7 +63,7 @@ const asyncGetUserInfo = () => async (dispatch) => {
         }
     }
     catch(err){
-        const errMessage = err.response.data.message;
+        const errMessage = err.response?.data?.message;
         message.error('请求用户信息失败'+errMessage);
     }
 }

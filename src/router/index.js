@@ -1,4 +1,4 @@
-import { Navigate } from 'react-router-dom'
+import { Navigate, createBrowserRouter } from 'react-router-dom'
 import Login from "@/pages/Login"
 import Layout from '@/pages/Layout'
 import Home from '@/pages/Layout/Home'
@@ -47,4 +47,6 @@ const routers = [
     }
 ]
 
-export default routers
+const router = createBrowserRouter(routers)
+
+export default router

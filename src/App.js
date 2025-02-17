@@ -1,12 +1,11 @@
-import { useRoutes } from 'react-router-dom'
 import router from './router'
+import { RouterProvider } from 'react-router-dom';
 
 function App() {
-  const elements = useRoutes(router);
   return (
     <div className="App">
       {/* 渲染路由 */}
-      {elements}
+      <RouterProvider router={router} />
     </div>
   );
 }
