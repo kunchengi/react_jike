@@ -1,5 +1,6 @@
 import axios from "axios";
-import { getToken } from "../utils";
+import { getToken, removeToken } from "../utils";
+import router from '@/router'
 
 // 创建axios实例
 const request = axios.create({
@@ -27,6 +28,14 @@ request.interceptors.response.use(response => {
         return response.data
     },
     err => {
+        // 如果是401，说明token过期，跳转到登录页
+        if(err.response.status === 401)
+        {
+            removeToken();
+            router.push('/login');
+            // 刷新页面
+            window.location.reload();
+        }
         return Promise.reject(err)
     }
 )
