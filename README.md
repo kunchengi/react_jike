@@ -11,6 +11,7 @@
 * craco
 * axios
 * redux
+* echarts
 
 ## 项目结构
 ```
@@ -139,3 +140,12 @@
   ```javascript
     import 'normalize.css'
   ```
+
+## echarts
+* 官方文档：https://echarts.apache.org/handbook/zh/get-started/
+* 安装依赖
+  ```bash
+    npm i echarts
+  ```
+
+  
