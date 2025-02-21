@@ -1,6 +1,7 @@
 import { message } from 'antd';
 import { createSlice } from "@reduxjs/toolkit";
-import { request, getToken, setToken as _setToken, removeToken } from "@/utils";
+import { getToken, setToken as _setToken, removeToken } from "@/utils";
+import { loginAPI, getProfileAPI } from '@/apis/user';
 
 // 创建用户Slice
 const userSlice = createSlice({
@@ -35,7 +36,7 @@ const { setToken, setUserInfo, clearUserInfo } = userSlice.actions;
 const asyncLogin = (loginFrom) => async (dispatch) => {
     try{
         // 登录请求，传入表单数据
-        const res = await request.post('/authorizations', loginFrom);
+        const res = await loginAPI(loginFrom);
         if(res){
             // 存入token
             dispatch(setToken(res.data.token));
@@ -52,7 +53,7 @@ const asyncLogin = (loginFrom) => async (dispatch) => {
 // 异步获取用户信息
 const asyncGetUserInfo = () => async (dispatch) => {
     try{
-        const res = await request.get('/user/profile');
+        const res = await getProfileAPI();
         if(res){
             // 存入用户信息
             dispatch(setUserInfo(res.data));
