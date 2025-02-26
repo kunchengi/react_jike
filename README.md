@@ -12,6 +12,7 @@
 * axios
 * redux
 * echarts
+* react-quill
 
 ## 项目结构
 ```
@@ -148,4 +149,10 @@
     npm i echarts
   ```
 
-  
+## react-quill
+* 富文本编辑器
+* 官方文档：https://www.npmjs.com/package/react-quill
+* 安装依赖
+  ```bash
+    npm i react-quill@2.0.0-beta.2 --legacy-peer-deps
+  ```

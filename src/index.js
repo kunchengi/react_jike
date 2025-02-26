@@ -7,10 +7,11 @@ import store from '@/store';
 import 'normalize.css'
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
+// React.StrictMode会使组件渲染两次
 root.render(
-  <React.StrictMode>
+  // <React.StrictMode>
       <Provider store={store}>
         <App />
       </Provider>
-  </React.StrictMode>
+  // </React.StrictMode>
 );

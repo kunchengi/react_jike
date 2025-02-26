@@ -1,5 +1,8 @@
 import { Card, Form, Input, Button, Breadcrumb, Select, Space } from "antd"
 import { Link } from "react-router-dom"
+// 导入富文本编辑器包
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 import './index.scss'
 export default function Publish() {
     return (
@@ -22,6 +25,7 @@ export default function Publish() {
                     </Form.Item>
                     <Form.Item label="内容" name="content" rules={[{ required: true, message: '请输入文章内容' }]}>
                         {/* 富文本编辑器 */}
+                        <ReactQuill className="publish-quill" theme="snow" placeholder="请输入文章内容" />
                     </Form.Item>
                     <Form.Item wrapperCol={{ offset: 4 }}>
                         <Space>
