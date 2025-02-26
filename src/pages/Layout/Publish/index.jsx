@@ -3,8 +3,25 @@ import { Link } from "react-router-dom"
 // 导入富文本编辑器包
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
+import { useEffect, useState } from "react";
+import { getChannelAPI } from "@/apis/article";
 import './index.scss'
 export default function Publish() {
+
+    // 频道列表
+    const [ channelList, setChannelList ] = useState([]);
+
+    useEffect(() => {
+        // 封装函数，在函数体内调用接口
+        const getChannels = async () => {
+            const res = await getChannelAPI();
+            // 设置频道列表
+            setChannelList(res.data.channels);
+        }
+        // 调用函数
+        getChannels();
+    }, []);
+
     return (
         <div className="publish">
             <Card title={<Breadcrumb items={[
@@ -20,7 +37,9 @@ export default function Publish() {
                             placeholder="请选择频道"
                             style={{ width: 400 }}
                         >
-                            <option value={0}>推荐</option>
+                            {/* 循环遍历渲染频道列表 */}
+                            {/* value属性用户选中后会自动收集起来，作为接口的提交字段 */}
+                            {channelList.map(item => <option key={item.id} value={item.id}>{item.name}</option>)}
                         </Select>
                     </Form.Item>
                     <Form.Item label="内容" name="content" rules={[{ required: true, message: '请输入文章内容' }]}>
