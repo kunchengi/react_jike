@@ -25,6 +25,8 @@ export default function Publish() {
 
     // 表单提交
     const onFinish = async (formValue) => {
+        // 校验封面类型是否和封面列表数量相同
+        if(imageType !== imageList.length) return message.warning('封面类型和图片数量不匹配');
         // 按照接口文档的格式处理收集到的表单数据
         const { title, channel_id, content } = formValue;
         const articleData = {
@@ -32,8 +34,8 @@ export default function Publish() {
             content,
             // 封面，暂时没有上传图片，所以图片数组为空
             cover: {
-                type: 0,
-                images: []
+                type: imageType,// 封面类型，0-无图，1-单图，3-三图
+                images: imageList.map(item => item.response.data.url)// 图片列表
             },
             channel_id
         };

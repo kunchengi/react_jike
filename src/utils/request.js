@@ -29,7 +29,7 @@ request.interceptors.response.use(response => {
     },
     err => {
         // 如果是401，说明token过期，跳转到登录页
-        if(err.response.status === 401)
+        if(err.response?.status === 401)
         {
             removeToken();
             router.push('/login');
