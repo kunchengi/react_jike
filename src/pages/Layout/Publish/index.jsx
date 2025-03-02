@@ -49,6 +49,7 @@ export default function Publish() {
     const [imageList, setImageList] = useState([]);
     // 上传回调，上传的过程中不断执行，直到上传完成
     const onChange = (value) => {
+        console.log(value);
         // 拿到上传好的文件列表并保存
         setImageList(value.fileList);
     }
@@ -95,6 +96,7 @@ export default function Publish() {
                         showUploadList：是否显示上传列表
                         action: 上传文件的地址，选择文件后调用
                         onChange：上传回调，上传的过程中不断执行，直到上传完成
+                        maxCount: 最大上传数量，为1时，再次上传会替换当前文件。大于1时，超出限制后上传无效
                         当前封面类型不为无图时，才显示上传图片的组件 */}
                         {imageType > 0 && <Upload
                             listType="picture-card"
@@ -102,6 +104,7 @@ export default function Publish() {
                             action="http://geek.itheima.net/v1_0/upload"
                             name="image"
                             onChange={onChange}
+                            maxCount={imageType}
                         >
                             <div style={{ marginTop: 8 }}>
                                 <PlusOutlined />
