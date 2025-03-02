@@ -1,4 +1,5 @@
-import { Card, Form, Input, Button, Breadcrumb, Select, Space, message } from "antd"
+import { Card, Form, Input, Button, Breadcrumb, Select, Space, message, Radio, Upload } from "antd"
+import { PlusOutlined } from '@ant-design/icons'
 import { Link } from "react-router-dom"
 // 导入富文本编辑器包
 import ReactQuill from 'react-quill';
@@ -9,7 +10,7 @@ import './index.scss'
 export default function Publish() {
 
     // 频道列表
-    const [ channelList, setChannelList ] = useState([]);
+    const [channelList, setChannelList] = useState([]);
 
     useEffect(() => {
         // 封装函数，在函数体内调用接口
@@ -37,13 +38,20 @@ export default function Publish() {
             channel_id
         };
         const sussess = await createArticleAPI(articleData);
-        if(sussess?.message === 'OK')
-        {
+        if (sussess?.message === 'OK') {
             message.success('发布成功');
         }
     }
 
     const quillRef = useRef(null);
+
+    // 图片列表
+    const [imageList, setImageList] = useState([]);
+    // 上传回调，上传的过程中不断执行，直到上传完成
+    const onChange = (value) => {
+        // 拿到上传好的文件列表并保存
+        setImageList(value.fileList);
+    }
 
     return (
         <div className="publish">
@@ -64,6 +72,30 @@ export default function Publish() {
                             {/* value属性用户选中后会自动收集起来，作为接口的提交字段 */}
                             {channelList.map(item => <Select.Option key={item.id} value={item.id}>{item.name}</Select.Option>)}
                         </Select>
+                    </Form.Item>
+                    <Form.Item label="封面">
+                        <Form.Item name="type">
+                            <Radio.Group>
+                                <Radio value={1}>单图</Radio>
+                                <Radio value={3}>三图</Radio>
+                                <Radio value={0}>无图</Radio>
+                            </Radio.Group>
+                        </Form.Item>
+                        {/* listType：选择文件框的样式
+                        showUploadList：是否显示上传列表
+                        action: 上传文件的地址，选择文件后调用
+                        onChange：上传回调，上传的过程中不断执行，直到上传完成 */}
+                        <Upload
+                            listType="picture-card"
+                            showUploadList
+                            action="http://geek.itheima.net/v1_0/upload"
+                            name="image"
+                            onChange={onChange}
+                        >
+                            <div style={{ marginTop: 8 }}>
+                                <PlusOutlined />
+                            </div>
+                        </Upload>
                     </Form.Item>
                     <Form.Item label="内容" name="content" rules={[{ required: true, message: '请输入文章内容' }]}>
                         {/* 富文本编辑器 */}
