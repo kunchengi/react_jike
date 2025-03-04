@@ -4,11 +4,13 @@ import { EditOutlined, DeleteOutlined } from '@ant-design/icons'
 import img404 from '@/assets/error.png'
 // 语言包，时间选择器汉化处理
 import locale from 'antd/es/date-picker/locale/zh_CN'
+import { useChannel } from '@/hooks/useChannel'
 
 const { Option } = Select
 const { RangePicker } = DatePicker
 export default function Article() {
 
+  const { channelList } = useChannel()
 
   // 状态枚举
   const status = {
@@ -104,14 +106,13 @@ export default function Article() {
               <Radio value={2}>审核通过</Radio>
             </Radio.Group>
           </Form.Item>
-          <Form.Item label="渠道" name="channel_id">
+          <Form.Item label="频道" name="channel_id">
             <Select
-              placeholder="请选择渠道"
-              defaultValue="lucy"
-              style={{ width: 120 }}
+              placeholder="请选择文章频道"
+              style={{ width: 150 }}
             >
-              <Option value="jack">Jack</Option>
-              <Option value="lucy">Lucy</Option>
+              {/* 渲染文章频道列表 */}
+              {channelList.map(item => <Option key={item.id} value={item.id}>{item.name}</Option>)}
             </Select>
           </Form.Item>
           <Form.Item label="日期" name="date">

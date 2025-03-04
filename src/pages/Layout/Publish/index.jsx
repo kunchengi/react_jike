@@ -4,25 +4,15 @@ import { Link } from "react-router-dom"
 // 导入富文本编辑器包
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
-import { useEffect, useRef, useState } from "react";
-import { getChannelAPI, createArticleAPI } from "@/apis/article";
+import { useRef, useState } from "react";
+import { createArticleAPI } from "@/apis/article";
+// 引入自定义hook
+import { useChannel } from "@/hooks/useChannel";
 import './index.scss'
 export default function Publish() {
 
-    // 频道列表
-    const [channelList, setChannelList] = useState([]);
-
-    useEffect(() => {
-        // 封装函数，在函数体内调用接口
-        const getChannels = async () => {
-            const res = await getChannelAPI();
-            // 设置频道列表
-            setChannelList(res.data.channels);
-        }
-        // 调用函数
-        getChannels();
-    }, []);
-
+    // 调用自定义hook，获取频道列表
+    const { channelList } = useChannel();
     // 表单提交
     const onFinish = async (formValue) => {
         // 校验封面类型是否和封面列表数量相同
