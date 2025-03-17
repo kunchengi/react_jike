@@ -42,7 +42,10 @@ export default function Article() {
     },
     {
       title: '状态',
-      dataIndex: 'status',
+      dataIndex: 'status',// 字段名
+      // 条件渲染
+      // render: data => data === 1 ? <Tag color='warning'>待审核</Tag> : <Tag color='success'>审核通过</Tag>
+      // 通过枚举值渲染
       render: data => status[data]
     },
     {
