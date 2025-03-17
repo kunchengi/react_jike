@@ -1,10 +1,12 @@
 import { Link } from 'react-router-dom'
+import { useEffect, useState } from 'react'
 import { Card, Form, Breadcrumb, Button, Select, DatePicker, Radio, Tag, Table, Space } from 'antd'
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons'
 import img404 from '@/assets/error.png'
 // 语言包，时间选择器汉化处理
 import locale from 'antd/es/date-picker/locale/zh_CN'
 import { useChannel } from '@/hooks/useChannel'
+import { getArticleListAPI } from '@/apis/article'
 
 const { Option } = Select
 const { RangePicker } = DatePicker
@@ -88,6 +90,19 @@ export default function Article() {
     }
   ]
 
+  // 获取文章列表
+  const [list, setList] = useState([])
+  const [count, setCount] = useState(0)
+  useEffect(() => {
+    async function getList() {
+      const res = await getArticleListAPI()
+      console.log(res)
+      setList(res.data.results)
+      setCount(res.data.total_count)
+    }
+    getList()
+  }, [])
+
   return (
     <div>
       <Card
@@ -126,8 +141,8 @@ export default function Article() {
         </Form>
       </Card>
       {/* 表格区域 */}
-      <Card title={`根据筛选条件共查询到 count 条结果：`}>
-        <Table rowKey="tableId" columns={columns} dataSource={data} />
+      <Card title={`根据筛选条件共查询到 ${count} 条结果：`}>
+        <Table rowKey="tableId" columns={columns} dataSource={list} />
       </Card>
     </div>
   )
