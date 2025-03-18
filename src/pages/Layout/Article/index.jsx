@@ -103,7 +103,6 @@ export default function Article() {
 
   // 2. 获取筛选数据
   const onFinish = (fromValue) => {
-    console.log(fromValue)
     // 3. 把表单收集到的数据，设置到reqData中
     setReqData({
       ...reqData,
@@ -113,6 +112,14 @@ export default function Article() {
       end_pubdate: fromValue.date ? fromValue.date[1].format('YYYY-MM-DD') : '',
     })
     // 4. 当reqData变化时，useEffect会重新发送请求
+  }
+
+  // 切换页数，page:当前页码，pageSize:每页条数
+  const onPageChange = (page, pageSize) => {
+    setReqData({
+      ...reqData,
+      page: page,
+    })
   }
 
   return (
@@ -154,7 +161,11 @@ export default function Article() {
       </Card>
       {/* 表格区域 */}
       <Card title={`根据筛选条件共查询到 ${count} 条结果：`}>
-        <Table rowKey="tableId" columns={columns} dataSource={list} />
+        <Table rowKey="tableId" columns={columns} dataSource={list} pagination={{
+          total: count,// 总数
+          pageSize: reqData.per_page,// 每页条数
+          onChange: onPageChange
+        }} />
       </Card>
     </div>
   )
