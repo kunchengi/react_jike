@@ -77,34 +77,43 @@ export default function Article() {
     }
   ]
 
-  // 表格数据
-  const data = [
-    {
-      id: '8218',
-      comment_count: 0,
-      cover: {
-        images: []
-      },
-      like_count: 0,
-      pubdate: '2023-05-10 12:45:31',
-      read_count: 2,
-      status: 2,
-      title: 'react学习笔记'
-    }
-  ]
+  // 筛选功能
+  // 1. 准备参数
+  const [reqData, setReqData] = useState({
+    status: '',// 状态
+    channel_id: '',// 频道id
+    begin_pubdate: '',// 开始时间
+    end_pubdate: '',// 结束时间
+    page: 1,// 当前页码
+    per_page: 4// 每页条数
+  })
 
   // 获取文章列表
   const [list, setList] = useState([])
   const [count, setCount] = useState(0)
   useEffect(() => {
     async function getList() {
-      const res = await getArticleListAPI()
+      const res = await getArticleListAPI(reqData)
       console.log(res)
       setList(res.data.results)
       setCount(res.data.total_count)
     }
     getList()
-  }, [])
+  }, [reqData])
+
+  // 2. 获取筛选数据
+  const onFinish = (fromValue) => {
+    console.log(fromValue)
+    // 3. 把表单收集到的数据，设置到reqData中
+    setReqData({
+      ...reqData,
+      status: fromValue.status,
+      channel_id: fromValue.channel_id,
+      begin_pubdate: fromValue.date ? fromValue.date[0].format('YYYY-MM-DD') : '',
+      end_pubdate: fromValue.date ? fromValue.date[1].format('YYYY-MM-DD') : '',
+    })
+    // 4. 当reqData变化时，useEffect会重新发送请求
+  }
 
   return (
     <div>
@@ -116,7 +125,7 @@ export default function Article() {
           ]} />}
         style={{ marginTop: 20 }}
       >
-        <Form initialValues={{ status: null }}>
+        <Form initialValues={{ status: '' }} onFinish={onFinish} >
           <Form.Item label="状态" name="status">
             <Radio.Group>
               <Radio value={null}>全部</Radio>
