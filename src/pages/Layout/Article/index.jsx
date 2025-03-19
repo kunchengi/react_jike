@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { Card, Form, Breadcrumb, Button, Select, DatePicker, Radio, Tag, Table, Space, Popconfirm } from 'antd'
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons'
@@ -11,6 +11,8 @@ import { delArticleAPI, getArticleListAPI } from '@/apis/article'
 const { Option } = Select
 const { RangePicker } = DatePicker
 export default function Article() {
+
+  const navigate = useNavigate()
 
   const { channelList } = useChannel()
 
@@ -69,7 +71,7 @@ export default function Article() {
       render: data => {
         return (
           <Space size='middle'>
-            <Button type="primary" shape="circle" icon={<EditOutlined />} />
+            <Button type="primary" shape="circle" icon={<EditOutlined />} onClick={()=>{navigate(`/layout/publish?${data.id}`)}}/>
             <Popconfirm
               title="删除文章?"
               description="是否删除？删除后将无法恢复！"
