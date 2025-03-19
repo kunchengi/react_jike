@@ -1,12 +1,12 @@
 import { Link } from 'react-router-dom'
 import { useEffect, useState } from 'react'
-import { Card, Form, Breadcrumb, Button, Select, DatePicker, Radio, Tag, Table, Space } from 'antd'
+import { Card, Form, Breadcrumb, Button, Select, DatePicker, Radio, Tag, Table, Space, Popconfirm } from 'antd'
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons'
 import img404 from '@/assets/error.png'
 // 语言包，时间选择器汉化处理
 import locale from 'antd/es/date-picker/locale/zh_CN'
 import { useChannel } from '@/hooks/useChannel'
-import { getArticleListAPI } from '@/apis/article'
+import { delArticleAPI, getArticleListAPI } from '@/apis/article'
 
 const { Option } = Select
 const { RangePicker } = DatePicker
@@ -70,7 +70,16 @@ export default function Article() {
         return (
           <Space size='middle'>
             <Button type="primary" shape="circle" icon={<EditOutlined />} />
-            <Button type="primary" danger shape="circle" icon={<DeleteOutlined />} />
+            <Popconfirm
+              title="删除文章?"
+              description="是否删除？删除后将无法恢复！"
+              onConfirm={() => onConfirm(data)}
+              onCancel={() => console.log('取消')}
+              okText="确认"
+              cancelText="取消"
+            >
+              <Button type="primary" danger shape="circle" icon={<DeleteOutlined />} />
+            </Popconfirm>
           </Space>
         )
       }
@@ -119,6 +128,15 @@ export default function Article() {
     setReqData({
       ...reqData,
       page: page,
+    })
+  }
+
+  // 确认删除
+  const onConfirm = async (data) => {
+    await delArticleAPI(data.id);
+    // 删除成功后，重新请求数据
+    setReqData({
+      ...reqData
     })
   }
 
