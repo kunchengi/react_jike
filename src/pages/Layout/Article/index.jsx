@@ -71,7 +71,7 @@ export default function Article() {
       render: data => {
         return (
           <Space size='middle'>
-            <Button type="primary" shape="circle" icon={<EditOutlined />} onClick={()=>{navigate(`/layout/publish?${data.id}`)}}/>
+            <Button type="primary" shape="circle" icon={<EditOutlined />} onClick={()=>{navigate(`/layout/publish?id=${data.id}`)}}/>
             <Popconfirm
               title="删除文章?"
               description="是否删除？删除后将无法恢复！"

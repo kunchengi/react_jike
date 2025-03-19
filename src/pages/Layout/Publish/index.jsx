@@ -1,11 +1,11 @@
 import { Card, Form, Input, Button, Breadcrumb, Select, Space, message, Radio, Upload } from "antd"
 import { PlusOutlined } from '@ant-design/icons'
-import { Link } from "react-router-dom"
+import { Link, useSearchParams } from "react-router-dom"
 // 导入富文本编辑器包
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
-import { useRef, useState } from "react";
-import { createArticleAPI } from "@/apis/article";
+import { useEffect, useRef, useState } from "react";
+import { createArticleAPI, getArticleById } from "@/apis/article";
 // 引入自定义hook
 import { useChannel } from "@/hooks/useChannel";
 import './index.scss'
@@ -55,6 +55,22 @@ export default function Publish() {
         setImageType(type);
     }
 
+    // 编辑文章跳转过来的数据回填
+    const [searchParams] = useSearchParams();
+    const articleId = searchParams.get('id');
+    // 获取from的实例
+    const [form] = Form.useForm();
+    useEffect(() => {
+        // 通过id获取数据
+        async function getArticleDetail() {
+            // 调用接口
+            if (!articleId) return;
+            const res = await getArticleById(articleId);
+            form.setFieldsValue(res.data);
+        }
+        getArticleDetail();
+    }, [articleId, form])
+
     return (
         <div className="publish">
             <Card title={<Breadcrumb items={[
@@ -62,7 +78,13 @@ export default function Publish() {
                 { title: "发布文章" }
             ]} />}>
                 {/* initialValues：表单的初始值 */}
-                <Form labelCol={{ span: 4 }} wrapperCol={{ span: 16 }} initialValues={{ type: 0 }} onFinish={onFinish}>
+                <Form
+                    labelCol={{ span: 4 }}
+                    wrapperCol={{ span: 16 }}
+                    initialValues={{ type: 0 }}
+                    onFinish={onFinish}
+                    form={form}// 绑定form实例
+                >
                     <Form.Item label="标题" name="title" rules={[{ required: false, message: '请输入文章标题' }]}>
                         <Input placeholder="请输入文章标题" style={{ width: 400 }} />
                     </Form.Item>
