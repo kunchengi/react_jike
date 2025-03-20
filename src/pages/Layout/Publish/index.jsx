@@ -16,7 +16,7 @@ export default function Publish() {
     // 表单提交
     const onFinish = async (formValue) => {
         // 校验封面类型是否和封面列表数量相同
-        if(imageType !== imageList.length) return message.warning('封面类型和图片数量不匹配');
+        if (imageType !== imageList.length) return message.warning('封面类型和图片数量不匹配');
         // 按照接口文档的格式处理收集到的表单数据
         const { title, channel_id, content } = formValue;
         const articleData = {
@@ -66,7 +66,31 @@ export default function Publish() {
             // 调用接口
             if (!articleId) return;
             const res = await getArticleById(articleId);
-            form.setFieldsValue(res.data);
+            const cover = res.data.cover;
+            // setFieldsValue会将对象回填到表单，对象的key要和表单的name一致
+            /**
+                cover的结构为：
+                {
+                    "type": 3,
+                    "images": [
+                        "http://geek.itheima.net/uploads/1742456939696.png",
+                        "http://geek.itheima.net/uploads/1742456943130.png",
+                        "http://geek.itheima.net/uploads/1742456970012.png"
+                    ]
+                }
+             */
+            // 得将type写出来才能回填封面类型
+            form.setFieldsValue({
+                ...res.data,
+                type: cover.type
+
+            });
+            // 回填图片列表
+            setImageType(cover.type);
+            // 显示图片列表
+            setImageList(cover.images.map(item => ({
+                url: item
+            })));
         }
         getArticleDetail();
     }, [articleId, form])
@@ -119,6 +143,7 @@ export default function Publish() {
                             name="image"
                             onChange={onChange}
                             maxCount={imageType}
+                            fileList={imageList}// 上传的图片列表
                         >
                             <div style={{ marginTop: 8 }}>
                                 <PlusOutlined />
