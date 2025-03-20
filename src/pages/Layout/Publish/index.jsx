@@ -5,7 +5,7 @@ import { Link, useSearchParams } from "react-router-dom"
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { useEffect, useRef, useState } from "react";
-import { createArticleAPI, getArticleById } from "@/apis/article";
+import { createArticleAPI, getArticleById, updateArticleAPI } from "@/apis/article";
 // 引入自定义hook
 import { useChannel } from "@/hooks/useChannel";
 import './index.scss'
@@ -25,11 +25,26 @@ export default function Publish() {
             // 封面，暂时没有上传图片，所以图片数组为空
             cover: {
                 type: imageType,// 封面类型，0-无图，1-单图，3-三图
-                images: imageList.map(item => item.response.data.url)// 图片列表
+                // 这里的url处理是新增的逻辑，更新的数据结构和这个不一样
+                images: imageList.map(item => {
+                    if(item.response){
+                        return item.response.url;
+                    }
+                    return item.url;
+                })// 图片列表
             },
             channel_id
         };
-        const sussess = await createArticleAPI(articleData);
+        // 新增状态调用新增接口，更新状态调用更新接口
+        let sussess = null;
+        if (articleId) {
+            sussess = await updateArticleAPI({
+                ...articleData,
+                id: articleId
+            });
+        }else{
+            sussess = await createArticleAPI(articleData);
+        }
         if (sussess?.message === 'OK') {
             message.success('发布成功');
         }
