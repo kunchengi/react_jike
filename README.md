@@ -180,3 +180,22 @@
   * 使用Suspense组件包裹懒加载的路由组件，Suspense组件的fallback属性用来指定加载时的占位组件
   ```javascript
     import React, { Suspense } from 'react';
+  ```
+
+## 打包优化-包体积可视化分析
+* 通过可视化的方式，直观的体检项目中各种包打包之后的体积大小，方便做优化
+
+* 安装包体积分析依赖
+  ```bash
+    npm i source-map-explorer
+  ```
+* 在package.json文件中配置打包命令
+  ```json
+    "scripts": {
+      "analyze": "source-map-explorer 'build/static/js/*.js'"
+    }
+  ```
+* 运行
+  ```bash
+    npm run analyze
+  ```
