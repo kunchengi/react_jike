@@ -1,10 +1,13 @@
 import { Navigate, createBrowserRouter } from 'react-router-dom'
+import { lazy, Suspense } from 'react'
 import Login from "@/pages/Login"
 import Layout from '@/pages/Layout'
-import Home from '@/pages/Layout/Home'
-import Article from '@/pages/Layout/Article'
-import Publish from '@/pages/Layout/Publish'
 import AuthRouter from '@/components/AuthRouter'
+
+// 1. lazy函数对组件进行导入
+const Home = lazy(() => import('@/pages/Layout/Home'))
+const Article = lazy(() => import('@/pages/Layout/Article'))
+const Publish = lazy(() => import('@/pages/Layout/Publish'))
 
 // 定义路由表
 const routers = [
@@ -23,15 +26,16 @@ const routers = [
             },
             {
                 path: 'home',
-                element: <Home />
+                // 2. 使用Suspense组件包裹懒加载的组件，当组件加载时显示loading组件
+                element: <Suspense fallback={'加载中'}><Home /></Suspense>
             },
             {
                 path: 'article',
-                element: <Article />
+                element: <Suspense fallback={'加载中'}><Article /></Suspense>
             },
             {
                 path: 'publish',
-                element: <Publish />
+                element: <Suspense fallback={'加载中'}><Publish /></Suspense>
             }
         ]
     },

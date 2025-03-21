@@ -171,3 +171,12 @@
     serve -s build
   ```
 * 浏览器中访问： http://localhost:3000
+
+## 打包优化-配置路由懒加载
+* 什么是路由懒加载？
+  * 路由懒加载是指路由的JS资源只有在被访问时才会动态加载，目的是为了优化项目首次打开的时间
+* 如何配置路由懒加载？
+  * 配置路由时，使用React.lazy()函数来包裹路由组件
+  * 使用Suspense组件包裹懒加载的路由组件，Suspense组件的fallback属性用来指定加载时的占位组件
+  ```javascript
+    import React, { Suspense } from 'react';
