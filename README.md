@@ -156,3 +156,18 @@
   ```bash
     npm i react-quill@2.0.0-beta.2 --legacy-peer-deps
   ```
+## 项目打包和本地预览
+* 打包，生成build文件夹
+  ```bash
+    npm run build
+  ```
+* 本地预览（模拟服务器运行项目）
+* 全局安装依赖
+  ```bash
+    npm i serve -g
+  ```
+* 运行
+  ```bash
+    serve -s build
+  ```
+* 浏览器中访问： http://localhost:3000
