@@ -199,3 +199,58 @@
   ```bash
     npm run analyze
   ```
+## 打包优化-CDN配置
+* 官方解释：CDN是指内容分发网络，是一种通过将网站的静态资源（如图片、CSS、JavaScript等）存储在多个地理位置的服务器上，然后通过负载均衡技术将用户请求分发到最近的服务器上，从而提高网站的访问速度和稳定性的技术。
+* 简单解释：将静态资源存储在多个地理位置的服务器上，当请求资源时，会请求离用户最近的服务器，从而提高网站的访问速度和稳定性。
+* 哪些资源可以使用CDN？
+  * 静态资源：图片、CSS等
+  * 非业务相关的JS文件，不需要经常做变动，CDN不用频繁更新缓存
+  * 第三方库：jQuery、Bootstrap、React等
+* 如何配置CDN？
+  * 在craco.config.js文件中配置打包命令
+    ```javascript
+      const path = require('path');
+      const { whenProd, getPlugin, pluginByName } = require('@craco/craco');
+
+      module.exports = {
+          webpack: {
+              // 配置CDN
+              configure: (webpackConfig) => {
+                  let cdn;
+                  // 生产环境
+                  whenProd(() => {
+                      // key 不参与打包的包名
+                      // value cnd文件中 挂载于全局的变量名
+                      webpackConfig.externals = {
+                          'react': 'React',
+                          'react-dom': 'ReactDOM'
+                      }
+                      // 配置成cdn资源地址
+                      // 实际开发中 用公司自己的cdn服务器
+                      cdn = {
+                          js: [
+                          'https://cdn.bootcdn.net/ajax/libs/react/18.3.1/umd/react.production.min.js',
+                          'https://cdn.bootcdn.net/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js' 
+                          ] 
+                      };
+                      // 通过HtmlWebpackPlugin 插件 把cdn注入到html文件中
+                      const { isFound, match } = getPlugin(
+                          webpackConfig,
+                          pluginByName('HtmlWebpackPlugin')
+                      );
+                      if(isFound) {
+                          // 给html文件注入cdn
+                          match.options.cdn = cdn; 
+                      }
+                  })
+                  return webpackConfig;
+              }
+          }
+      }
+    ```
+  * 在index.html文件中引入CDN
+    ```html
+      <% htmlWebpackPlugin.options.cdn.js.forEach(cdnURL => { %>
+        <script src="<%= cdnURL %>"></script>
+      <% }) %>
+    ```
